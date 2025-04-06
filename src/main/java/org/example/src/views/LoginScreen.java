@@ -1,6 +1,5 @@
-package org.example.src;
+package org.example.src.views;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.example.src.components.PanelManager;
