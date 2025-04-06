@@ -87,6 +87,7 @@ public class PanelManager extends JPanel {
         );
     }
 
+    // Classe interna para armazenar os componentes do painel principal do sistema
     public static class HomePanelComponents {
         public final JPanel panel;
         public final JButton tela1Button;
