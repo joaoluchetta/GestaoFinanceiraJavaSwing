@@ -1,7 +1,5 @@
 package org.example.src.components;
 
-import com.sun.security.auth.module.JndiLoginModule;
-
 import javax.swing.*;
 
 public class CategoryManager extends JPanel {
@@ -18,20 +16,15 @@ public class CategoryManager extends JPanel {
 
         // Construtor dos itens
         public CategoryPanelComponents() {
-            JList<String> categoryList1;
             panel = new JPanel();
             label = new JLabel("Nome da Categoria:");
             textField = new JTextField(20);
             addButton = new JButton("Adicionar");
             editButton = new JButton("Editar");
             removeButton = new JButton("Remover");
-            categoryList1 = new JList<>(new DefaultListModel<>());
-
-            // Lista de categorias com modelo padrão
-            categoryList1 = new JList<>(new DefaultListModel<>());
+            categoryList = new JList<>(new DefaultListModel<>());
 
             // Layout simples com BoxLayout
-            categoryList = categoryList1;
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
             // Adiciona componentes ao painel
