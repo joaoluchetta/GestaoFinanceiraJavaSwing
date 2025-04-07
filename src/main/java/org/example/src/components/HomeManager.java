@@ -29,7 +29,38 @@ public class HomeManager extends JPanel {
         panelHomeButtons.add(buttonTela2);
         panelHomeButtons.add(buttonTela3);
         panelHomeButtons.add(buttonSair);
-        
+
+        // Painel de filtro por data
+        JPanel panelHomeFilter = new JPanel();
+        panelHomeFilter.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelHomeFilter.setBorder(BorderFactory.createTitledBorder("Filtrar por período"));
+
+// Adicionar componentes para data inicial
+        JPanel panelDataInicial = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelDataInicial = new JLabel("Data inicial:");
+        JTextField textDataInicial = new JTextField(10);
+        Styles.setDefaultTextFieldSize(textDataInicial);
+        panelDataInicial.add(labelDataInicial);
+        panelDataInicial.add(textDataInicial);
+
+// Adicionar componentes para data final
+        JPanel panelDataFinal = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel labelDataFinal = new JLabel("Data final:");
+        JTextField textDataFinal = new JTextField(10);
+        Styles.setDefaultTextFieldSize(textDataFinal);
+        panelDataFinal.add(labelDataFinal);
+        panelDataFinal.add(textDataFinal);
+
+// Botão de busca
+        JButton buttonBuscar = new JButton("Buscar");
+        Styles.setDefaultButtonSize(buttonBuscar);
+
+// Adicionar todos os componentes ao painel de filtro
+        panelHomeFilter.add(panelDataInicial);
+        panelHomeFilter.add(panelDataFinal);
+        panelHomeFilter.add(buttonBuscar);
+
+
         //Panel das labels
         JPanel panelHomeLabels = new JPanel();
         panelHomeLabels.setLayout(new GridLayout(1, 4, 10, 10));
@@ -43,6 +74,7 @@ public class HomeManager extends JPanel {
         panelHomeLabels.add(labelSaldoTotal);
         panelHomeLabels.add(labelReceitas);
         panelHomeLabels.add(labelDespesas);
+
         
         //Panel da table
         JPanel panelHomeTables = new JPanel();
@@ -50,11 +82,7 @@ public class HomeManager extends JPanel {
         //NECESSÁRIO CRIAR UMA CLASSE PARA ESSE OBJETO AQUI (TRANSACAO CLASS OU USER CLASS)
         // Dados de exemplo apenas para demonstracao
         String[] colunas = {"Data", "Descrição", "Categoria", "Valor"};
-        Object[][] dados = {
-                {"01/04/2025", "Salário", "Receita", "R$ 3.500,00"},
-                {"05/04/2025", "Aluguel", "Despesa", "R$ 1.200,00"},
-                {"10/04/2025", "Supermercado", "Despesa", "R$ 450,00"}
-        };
+        Object[][] dados = { };
 
         // Criar o modelo da tabela
         DefaultTableModel modeloTabela = new DefaultTableModel(dados, colunas);
@@ -64,48 +92,59 @@ public class HomeManager extends JPanel {
         panelHomeTables.add(scrollPane, BorderLayout.CENTER);
         Styles.setDefaultTableSize(table);
         Styles.setTableHeaderStyle(table);
-        
-        // Panel principal que contém os 3 panels
+
+        // Panel principal que contém todos os painéis
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.add(panelHomeButtons);
         contentPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaço entre painéis
+        contentPanel.add(panelHomeFilter); // Adicionando o painel de filtro
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         contentPanel.add(panelHomeLabels);
-        contentPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaço entre painéis
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         contentPanel.add(panelHomeTables);
         
         panelHome.add(contentPanel, BorderLayout.CENTER);
-        
+
         return new HomePanelComponents(
                 panelHome,
                 buttonTela1,
                 buttonTela2,
                 buttonTela3,
                 buttonSair,
+                textDataInicial,
+                textDataFinal,
+                buttonBuscar,
                 labelSaldoTotal,
                 labelReceitas,
                 labelDespesas,
                 table
         );
     }
-    
+
     public static class HomePanelComponents {
         public final JPanel panelHome;
         public final JButton tela1Button;
         public final JButton tela2Button;
         public final JButton tela3Button;
         public final JButton sairButton;
+        public final JTextField dataInicialField;
+        public final JTextField dataFinalField;
+        public final JButton buscarButton;
         public final JLabel labelSaldoTotal;
         public final JLabel labelReceitas;
         public final JLabel labelDespesas;
         public final JTable table;
-        
+
         public HomePanelComponents(
                 JPanel panelHome,
                 JButton tela1Button,
                 JButton tela2Button,
                 JButton tela3Button,
                 JButton sairButton,
+                JTextField dataInicialField,
+                JTextField dataFinalField,
+                JButton buscarButton,
                 JLabel labelSaldoTotal,
                 JLabel labelReceitas,
                 JLabel labelDespesas,
@@ -115,11 +154,14 @@ public class HomeManager extends JPanel {
             this.tela2Button = tela2Button;
             this.tela3Button = tela3Button;
             this.sairButton = sairButton;
+            this.dataInicialField = dataInicialField;
+            this.dataFinalField = dataFinalField;
+            this.buscarButton = buscarButton;
             this.labelSaldoTotal = labelSaldoTotal;
             this.labelReceitas = labelReceitas;
             this.labelDespesas = labelDespesas;
             this.table = table;
-            
         }
     }
+
 }
