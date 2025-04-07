@@ -2,6 +2,7 @@ package org.example.src.views;
 
 import org.example.src.components.PanelManager;
 import org.example.src.components.Styles;
+import org.example.src.models.Usuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,11 +11,18 @@ import java.awt.event.ActionListener;
 public class HomeScreen extends JFrame implements ActionListener {
 
     private JButton sairButton;
+    private Usuario usuarioLogado;
 
-    public HomeScreen() {
+    public HomeScreen(Usuario usuario) {
+        // Verifica se o usuário não é nulo
+        if (usuario == null) {
+            throw new IllegalArgumentException("Não é possível criar HomeScreen sem um usuário");
+        }
+        this.usuarioLogado = usuario;
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
-        setTitle("Resumo Financeiro");
+        setTitle("Resumo Financeiro - " + usuario.getName() + " - (ID: " + usuarioLogado.getId() + ")");
 
         // Criar painel principal  usando o PanelManager
         PanelManager.HomePanelComponents homeComponents = PanelManager.createHomePanel();
@@ -44,6 +52,12 @@ public class HomeScreen extends JFrame implements ActionListener {
 
     // Método para lidar com o login
     private void handleSair() {
-            System.exit(0);
+        int answer = JOptionPane.showConfirmDialog(this, "Deseja realmente sair?", "Confirmação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (answer == JOptionPane.YES_OPTION) {
+            dispose();
+            new LoginScreen(); //volta para a telad e login
+        }
+
     }
 }

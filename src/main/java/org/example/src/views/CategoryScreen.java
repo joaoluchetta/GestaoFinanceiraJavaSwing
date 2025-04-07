@@ -1,4 +1,4 @@
-package org.example.src;
+package org.example.src.views;
 
 import org.example.src.components.CategoryManager;
 

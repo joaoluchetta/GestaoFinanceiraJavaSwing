@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.example.src.components.PanelManager;
 import org.example.src.components.Styles;
+import org.example.src.models.Usuario;
 
 public class LoginScreen extends JFrame implements ActionListener {
 
@@ -60,14 +61,19 @@ public class LoginScreen extends JFrame implements ActionListener {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (validateLogin(username, password)) {
-            JOptionPane.showMessageDialog(this,
-                    "Login bem-sucedido!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        if (Usuario.validateUser(username, password)) {
+            // Obtém o usuário do mapa de usuários
+            // Você precisaria adicionar este método na classe Usuario
+            Usuario usuarioLogado = Usuario.getUser(username);
 
-            // Aqui você abriria a próxima tela da aplicação
-            HomeScreen homeScreen = new HomeScreen();
+            JOptionPane.showMessageDialog(this,
+                    "Bem-vindo, " + usuarioLogado.getName() + "!",
+                    "Login bem-sucedido", JOptionPane.INFORMATION_MESSAGE);
+
+            // Abrir a tela principal passando o usuário
+            HomeScreen homeScreen = new HomeScreen(usuarioLogado);
             homeScreen.setVisible(true);
-            dispose(); //Fecha a tela de login
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Usuário ou senha incorretos!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -78,13 +84,9 @@ public class LoginScreen extends JFrame implements ActionListener {
 
     // Método para lidar com o registro
     private void handleRegister() {
-        JOptionPane.showMessageDialog(this,
-                "Funcionalidade de registro ainda não implementada!",
-                "Em desenvolvimento", JOptionPane.INFORMATION_MESSAGE);
-
-        // Aqui você abriria uma tela de registro
-        // RegisterScreen registerScreen = new RegisterScreen();
-        // registerScreen.setVisible(true);
+        dispose(); // Fechar tela atual
+        SignUpScreen signUpScreen = new SignUpScreen();
+        signUpScreen.setVisible(true);
     }
 
     // Método para validar as credenciais
