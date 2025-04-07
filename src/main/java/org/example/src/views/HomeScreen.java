@@ -1,6 +1,6 @@
 package org.example.src.views;
 
-import org.example.src.components.PanelManager;
+import org.example.src.components.HomeManager;
 import org.example.src.components.Styles;
 import org.example.src.models.Usuario;
 
@@ -25,7 +25,7 @@ public class HomeScreen extends JFrame implements ActionListener {
         setTitle("Resumo Financeiro - " + usuario.getName() + " - (ID: " + usuarioLogado.getId() + ")");
 
         // Criar painel principal  usando o PanelManager
-        PanelManager.HomePanelComponents homeComponents = PanelManager.createHomePanel();
+        HomeManager.HomePanelComponents homeComponents = HomeManager.createHomePanel();
 
         // Armazenar referências aos componentes para uso posterior
         sairButton = homeComponents.sairButton;

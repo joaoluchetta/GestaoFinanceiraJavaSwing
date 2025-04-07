@@ -4,70 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class PanelManager extends JPanel {
-    
-    // region TELA LOGIN
-    // Método para criar um painel de login (agora retorna o painel e os componentes)
-    public static LoginPanelComponents createLoginPanel() {
-        JPanel panelLogin = new JPanel();
-        panelLogin.setLayout(new GridLayout(3, 2, 10, 10));
-        
-        //Campos para o usuario realizar o login
-        JLabel labelUser = new JLabel("Usuário:");
-        JTextField textUserName = new JTextField();
-        Styles.setDefaultTextFieldSize(textUserName);
-        
-        JLabel labelPassword = new JLabel("Senha:");
-        JPasswordField textUserPassword = new JPasswordField();
-        Styles.setDefaultTextFieldSize(textUserPassword);
-        
-        JButton buttonLogin = new JButton("Login");
-        Styles.setDefaultButtonSize(buttonLogin);
-        JButton buttonRegister = new JButton("Register");
-        Styles.setDefaultButtonSize(buttonRegister);
-        
-        panelLogin.add(labelUser);
-        panelLogin.add(textUserName);
-        panelLogin.add(labelPassword);
-        panelLogin.add(textUserPassword);
-        panelLogin.add(buttonLogin);
-        panelLogin.add(buttonRegister);
-        
-        // Criando um objeto para retornar todos os componentes necessários
-        return new LoginPanelComponents(
-                panelLogin,
-                textUserName,
-                textUserPassword,
-                buttonLogin,
-                buttonRegister
-        );
-    }
-    
-    // Classe interna para armazenar os componentes do painel de login
-    public static class LoginPanelComponents {
-        public final JPanel panel;
-        public final JTextField usernameField;
-        public final JPasswordField passwordField;
-        public final JButton loginButton;
-        public final JButton registerButton;
-        
-        public LoginPanelComponents(
-                JPanel panel,
-                JTextField usernameField,
-                JPasswordField passwordField,
-                JButton loginButton,
-                JButton registerButton) {
-            this.panel = panel;
-            this.usernameField = usernameField;
-            this.passwordField = passwordField;
-            this.loginButton = loginButton;
-            this.registerButton = registerButton;
-        }
-    }
-//endregion
-    
-    //region TELA HOME
-    //Método para criar o painel principal do sistema
+public class HomeManager extends JPanel {
+
     public static HomePanelComponents createHomePanel() {
         JPanel panelHome = new JPanel();
         panelHome.setLayout(new BorderLayout(10, 10));
@@ -150,9 +88,6 @@ public class PanelManager extends JPanel {
                 table
         );
     }
-
-    // Classe interna para armazenar os componentes do painel principal do sistema
-
     
     public static class HomePanelComponents {
         public final JPanel panelHome;
@@ -187,9 +122,4 @@ public class PanelManager extends JPanel {
             
         }
     }
-    //endregion
-    
-    //region TELA 1
-    
-    //enderegion
 }

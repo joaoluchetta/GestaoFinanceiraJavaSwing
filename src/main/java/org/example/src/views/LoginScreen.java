@@ -2,7 +2,7 @@ package org.example.src.views;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.example.src.components.PanelManager;
+import org.example.src.components.LoginManager;
 import org.example.src.components.Styles;
 import org.example.src.models.Usuario;
 
@@ -25,7 +25,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         setTitle("SaveMoney");
 
         // Criar painel de login usando o PanelManager
-        PanelManager.LoginPanelComponents loginComponents = PanelManager.createLoginPanel();
+        LoginManager.LoginPanelComponents loginComponents = LoginManager.createLoginPanel();
 
         // Armazenar referências aos componentes para uso posterior
         usernameField = loginComponents.usernameField;
