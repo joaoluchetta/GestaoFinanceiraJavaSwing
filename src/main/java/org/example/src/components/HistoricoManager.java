@@ -23,7 +23,7 @@ public class HistoricoManager extends JPanel {
         JScrollPane scrollPane = new JScrollPane(areaTexto);
 
         // Botão para voltar
-        JButton voltarButton = new JButton("Voltar para o menu");
+        JButton voltarButton = new JButton("Voltar");
         Styles.setDefaultButtonSize(voltarButton);
 
         // Montar o painel

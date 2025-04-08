@@ -18,7 +18,7 @@ public class TransacoesManager extends JPanel {
         Styles.setDefaultButtonSize(despesaButton);
         despesaButton.setVerticalTextPosition(AbstractButton.CENTER);
 
-        JButton voltarButton = new JButton("Voltar para o menu");
+        JButton voltarButton = new JButton("Voltar");
         Styles.setDefaultButtonSize(voltarButton);
         voltarButton.setVerticalTextPosition(AbstractButton.CENTER);
 
