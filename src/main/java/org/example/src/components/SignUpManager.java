@@ -8,8 +8,7 @@ public class SignUpManager extends JPanel {
     public static SignUpPanelComponents createSignUpPanel() {
         JPanel panelSignUp = new JPanel();
         panelSignUp.setLayout(new GridLayout(4, 2, 10, 10));
-
-        //Campos para o usuario realizar o cadatro
+        
         JLabel labelName = new JLabel("Nome:");
         JTextField textName = new JTextField();
         Styles.setDefaultTextFieldSize(textName);
@@ -36,8 +35,7 @@ public class SignUpManager extends JPanel {
 
         panelSignUp.add(buttonRegister);
         panelSignUp.add(buttonBack);
-
-        // Criando um objeto para retornar todos os componentes necessários
+        
         return new SignUpPanelComponents(
                 panelSignUp,
                 textName,
@@ -47,8 +45,7 @@ public class SignUpManager extends JPanel {
                 buttonBack
         );
     }
-
-    // Classe interna para armazenar os componentes do painel de login
+    
     public static class SignUpPanelComponents {
         public final JPanel panelSignUp;
         public final JTextField textNameField;

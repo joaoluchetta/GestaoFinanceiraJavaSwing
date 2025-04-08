@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.example.src.models.Usuario;
 
-
 public class SignUpScreen extends JFrame implements ActionListener {
 
     private JTextField nameField;
@@ -52,20 +51,17 @@ public class SignUpScreen extends JFrame implements ActionListener {
     }
 
     private void handleRegistration() {
-        // Obter os valores dos campos
         String name = nameField.getText().trim();
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword());
-
-        // Validar se todos os campos foram preenchidos
+        
         if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Todos os campos são obrigatórios!",
                     "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Verificar se o usuário já existe
+        
         if (Usuario.userExists(username)) {
             JOptionPane.showMessageDialog(this,
                     "Este nome de usuário já está em uso. Por favor, escolha outro.",
@@ -78,8 +74,7 @@ public class SignUpScreen extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this,
                     "Usuário cadastrado com sucesso!",
                     "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-            // Voltar para a tela de login
+            
             dispose();
             new LoginScreen();
         } else {
@@ -90,7 +85,6 @@ public class SignUpScreen extends JFrame implements ActionListener {
     }
 
     private void handleBack() {
-        // Voltar para a tela de login
         dispose();
         new LoginScreen();
     }

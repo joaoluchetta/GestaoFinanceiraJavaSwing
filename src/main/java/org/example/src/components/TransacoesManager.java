@@ -8,8 +8,7 @@ public class TransacoesManager extends JPanel {
     public static TransicoesPanelComponents createTransicoesPanel() {
         JPanel panelTransicoes = new JPanel();
         panelTransicoes.setLayout(new GridLayout(3, 1, 5, 5));
-
-        // Botões
+        
         JButton receitaButton = new JButton("Receita");
         Styles.setDefaultButtonSize(receitaButton);
         receitaButton.setVerticalTextPosition(AbstractButton.CENTER);
@@ -26,8 +25,7 @@ public class TransacoesManager extends JPanel {
         panelTransicoes.add(receitaButton);
         panelTransicoes.add(despesaButton);
         panelTransicoes.add(voltarButton);
-
-        // Criar e retornar o objeto de componentes
+        
         return new TransicoesPanelComponents(
                 panelTransicoes,
                 receitaButton,
@@ -35,8 +33,7 @@ public class TransacoesManager extends JPanel {
                 voltarButton
         );
     }
-
-    // Classe interna para armazenar os componentes do painel
+    
     public static class TransicoesPanelComponents {
         public final JPanel panel;
         public final JButton receitaButton;

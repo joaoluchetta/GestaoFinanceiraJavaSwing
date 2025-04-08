@@ -25,10 +25,6 @@ public class Usuario {
         return id;
     }
 
-    public String getUsername(String username) {
-        return username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -41,7 +37,6 @@ public class Usuario {
     private static final Map<String, Usuario> users = new HashMap<>();
 
     public static boolean addUser(String username, String password, String name) {
-        //verifica se o usuario ja existe
         if (users.containsKey(username)) {
             return false;
         }
@@ -52,19 +47,15 @@ public class Usuario {
     }
 
     public static boolean validateUser(String username, String password) {
-        //verificar se o usuario existe
         Usuario user = users.get(username);
         if(user == null){
             return false;
         }
-        //verifica se a senha esta correta
         if(user.getPassword().equals(password)){
             return true;
         }
         return false;
     }
-
-    // Verificar se um usuário existe
     public static boolean userExists(String username) {
         return users.containsKey(username);
     }

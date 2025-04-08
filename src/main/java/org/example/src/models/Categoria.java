@@ -12,11 +12,9 @@ public class Categoria {
     private String nome;
     private TipoCategoria tipo;
     private String descricao;
-
-    // Armazenamento em memória para categorias
+    
     private static final List<Categoria> categorias = new ArrayList<>();
-
-    // Inicializar com algumas categorias padrão
+    
     static {
         // Categorias de Receita
         categorias.add(new Categoria("Salário", TipoCategoria.RECEITA, "Salário mensal"));
@@ -34,8 +32,7 @@ public class Categoria {
         this.tipo = tipo;
         this.descricao = descricao;
     }
-
-    // Getters e Setters
+    
     public String getNome() {
         return nome;
     }
@@ -73,12 +70,6 @@ public class Categoria {
         return nome;
     }
 
-    // Métodos estáticos para gerenciar categorias
-
-    public static List<Categoria> listarTodas() {
-        return new ArrayList<>(categorias);
-    }
-
     public static List<Categoria> listarReceitas() {
         List<Categoria> receitas = new ArrayList<>();
         for (Categoria categoria : categorias) {
@@ -101,10 +92,6 @@ public class Categoria {
 
     public static void adicionar(Categoria categoria) {
         categorias.add(categoria);
-    }
-
-    public static boolean remover(Categoria categoria) {
-        return categorias.remove(categoria);
     }
 
     public static boolean removerPorNome(String nome) {

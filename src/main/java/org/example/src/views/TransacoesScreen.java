@@ -1,5 +1,4 @@
 package org.example.src.components;
-
 import org.example.src.views.DespesaScreen;
 import org.example.src.views.ReceitaScreen;
 import org.example.src.models.Usuario;

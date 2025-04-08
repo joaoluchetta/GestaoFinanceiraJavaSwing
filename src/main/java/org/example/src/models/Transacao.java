@@ -38,10 +38,6 @@ public class Transacao {
         return valor;
     }
 
-    public TipoTransacao getTipo() {
-        return tipo;
-    }
-
     public boolean isReceita() {
         return tipo == TipoTransacao.RECEITA;
     }

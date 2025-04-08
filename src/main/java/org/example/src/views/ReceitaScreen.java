@@ -1,5 +1,4 @@
 package org.example.src.views;
-
 import org.example.src.components.ReceitaManager;
 import org.example.src.components.TransacoesScreen;
 import org.example.src.models.RegistroGlobal;
@@ -11,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReceitaScreen extends JFrame implements ActionListener {
-    // Componentes da tela
     private JComboBox<String> categoriaComboBox;
     private JTextField valorField;
     private JTextField descricaoField;
@@ -24,11 +22,9 @@ public class ReceitaScreen extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setTitle("Cadastro de Receita");
-
-        // Criar painel de receita usando o ReceitaManager
+        
         ReceitaManager.ReceitaPanelComponents receitaComponents = ReceitaManager.createReceitaPanel();
-
-        // Armazenar referências aos componentes para uso posterior
+        
         categoriaComboBox = receitaComponents.categoriaComboBox;
         valorField = receitaComponents.valorField;
         descricaoField = receitaComponents.descricaoField;
@@ -36,15 +32,12 @@ public class ReceitaScreen extends JFrame implements ActionListener {
         dataModel = receitaComponents.dataModel;
         salvarButton = receitaComponents.salvarButton;
         voltarButton = receitaComponents.voltarButton;
-
-        // Registrar este objeto como listener dos botões
+        
         salvarButton.addActionListener(this);
         voltarButton.addActionListener(this);
-
-        // Adicionar o painel ao frame
+        
         add(receitaComponents.panel);
-
-        // Centralizar, ajustar tamanho e mostrar
+        
         pack();
         Styles.centerOnScreen(this);
         setVisible(true);
@@ -63,16 +56,14 @@ public class ReceitaScreen extends JFrame implements ActionListener {
         String categoriaSelecionada = categoriaComboBox.getSelectedItem().toString();
         String valorTexto = valorField.getText().trim();
         String descricaoTexto = descricaoField.getText().trim();
-
-        // Validar se todos os campos foram preenchidos
+        
         if (valorTexto.isEmpty() || descricaoTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Todos os campos devem ser preenchidos.",
                     "Dados incompletos", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Validar formato do valor
+        // Valida formato do valor
         double valorNumerico;
         try {
             valorNumerico = Double.parseDouble(valorTexto);
@@ -82,11 +73,8 @@ public class ReceitaScreen extends JFrame implements ActionListener {
                     "Formato inválido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Obter data do spinner
+        
         java.util.Date data = dataModel.getDate();
-
-        // Criar objeto Transacao
         Transacao novaReceita = new Transacao(
                 data,
                 descricaoTexto,
@@ -94,15 +82,12 @@ public class ReceitaScreen extends JFrame implements ActionListener {
                 valorNumerico,
                 Transacao.TipoTransacao.RECEITA
         );
-
-        // Adicionar ao registro global
+        
         RegistroGlobal.adicionar(novaReceita);
-
         JOptionPane.showMessageDialog(this,
                 "Receita salva com sucesso!",
                 "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-        // Voltar para a tela de transições
+        
         dispose();
         new TransacoesScreen().setVisible(true);
     }

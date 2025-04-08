@@ -10,12 +10,10 @@ public class CategoriaManager extends JPanel {
     public static CategoriaPanelComponents createCategoriaPanel() {
         JPanel panelCategoria = new JPanel();
         panelCategoria.setLayout(new BorderLayout(10, 10));
-
-        // Painel para adicionar nova categoria
+        
         JPanel panelAdicionar = new JPanel(new GridLayout(4, 2, 10, 10));
         panelAdicionar.setBorder(BorderFactory.createTitledBorder("Adicionar Categoria"));
-
-        // Campos para cadastro
+        
         JLabel labelNome = new JLabel("Nome:");
         JTextField textNome = new JTextField(20);
         Styles.setDefaultTextFieldSize(textNome);
@@ -27,8 +25,7 @@ public class CategoriaManager extends JPanel {
         JLabel labelDescricao = new JLabel("Descrição:");
         JTextField textDescricao = new JTextField(30);
         Styles.setDefaultTextFieldSize(textDescricao);
-
-        // Botões
+        
         JButton buttonAdicionar = new JButton("Adicionar");
         Styles.setDefaultButtonSize(buttonAdicionar);
 
@@ -40,8 +37,7 @@ public class CategoriaManager extends JPanel {
 
         JButton buttonVoltar = new JButton("Voltar");
         Styles.setDefaultButtonSize(buttonVoltar);
-
-        // Adicionar componentes ao painel de cadastro
+        
         panelAdicionar.add(labelNome);
         panelAdicionar.add(textNome);
         panelAdicionar.add(labelTipo);
@@ -50,12 +46,10 @@ public class CategoriaManager extends JPanel {
         panelAdicionar.add(textDescricao);
         panelAdicionar.add(buttonAdicionar);
         panelAdicionar.add(buttonEditar);
-
-        // Painel com as listas de categorias
+        
         JPanel panelListas = new JPanel(new GridLayout(1, 2, 10, 10));
         panelListas.setBorder(BorderFactory.createTitledBorder("Categorias existentes"));
-
-        // Lista de receitas
+        
         JPanel panelReceitas = new JPanel(new BorderLayout());
         panelReceitas.setBorder(BorderFactory.createTitledBorder("Receitas"));
         DefaultListModel<String> modelReceitas = new DefaultListModel<>();
@@ -65,8 +59,7 @@ public class CategoriaManager extends JPanel {
         JList<String> listaReceitas = new JList<>(modelReceitas);
         JScrollPane scrollReceitas = new JScrollPane(listaReceitas);
         panelReceitas.add(scrollReceitas, BorderLayout.CENTER);
-
-        // Lista de despesas
+        
         JPanel panelDespesas = new JPanel(new BorderLayout());
         panelDespesas.setBorder(BorderFactory.createTitledBorder("Despesas"));
         DefaultListModel<String> modelDespesas = new DefaultListModel<>();
@@ -76,22 +69,18 @@ public class CategoriaManager extends JPanel {
         JList<String> listaDespesas = new JList<>(modelDespesas);
         JScrollPane scrollDespesas = new JScrollPane(listaDespesas);
         panelDespesas.add(scrollDespesas, BorderLayout.CENTER);
-
-        // Adicionar as listas ao painel
+        
         panelListas.add(panelReceitas);
         panelListas.add(panelDespesas);
-
-        // Painel de botões inferiores
+        
         JPanel panelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBotoes.add(buttonRemover);
         panelBotoes.add(buttonVoltar);
-
-        // Adicionar tudo ao painel principal
+        
         panelCategoria.add(panelAdicionar, BorderLayout.NORTH);
         panelCategoria.add(panelListas, BorderLayout.CENTER);
         panelCategoria.add(panelBotoes, BorderLayout.SOUTH);
-
-        // Retornar os componentes
+        
         return new CategoriaPanelComponents(
                 panelCategoria,
                 textNome,

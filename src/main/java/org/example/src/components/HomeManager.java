@@ -9,8 +9,7 @@ public class HomeManager extends JPanel {
     public static HomePanelComponents createHomePanel() {
         JPanel panelHome = new JPanel();
         panelHome.setLayout(new BorderLayout(10, 10));
-
-        //Panel dos buttons
+        
         JPanel panelHomeButtons = new JPanel();
         panelHomeButtons.setLayout(new GridLayout(1, 4, 10, 10));
         panelHomeButtons.setMaximumSize(new Dimension(Short.MAX_VALUE, 30)); // Impede crescimento vertical
@@ -27,13 +26,11 @@ public class HomeManager extends JPanel {
         panelHomeButtons.add(buttonHistorico);
         panelHomeButtons.add(buttonCategoria);
         panelHomeButtons.add(buttonSair);
-
-        // Painel de filtro por data
+        
         JPanel panelHomeFilter = new JPanel();
         panelHomeFilter.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
         panelHomeFilter.setBorder(BorderFactory.createTitledBorder("Filtrar por período"));
-
-        // Data inicial com JSpinner
+        
         JPanel panelDataInicial = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel labelDataInicial = new JLabel("Data inicial:");
         SpinnerDateModel modelDataInicial = new SpinnerDateModel();
@@ -42,8 +39,7 @@ public class HomeManager extends JPanel {
         spinnerDataInicial.setPreferredSize(new Dimension(120, 25));
         panelDataInicial.add(labelDataInicial);
         panelDataInicial.add(spinnerDataInicial);
-
-        // Data final com JSpinner
+        
         JPanel panelDataFinal = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel labelDataFinal = new JLabel("Data final:");
         SpinnerDateModel modelDataFinal = new SpinnerDateModel();
@@ -52,17 +48,14 @@ public class HomeManager extends JPanel {
         spinnerDataFinal.setPreferredSize(new Dimension(120, 25));
         panelDataFinal.add(labelDataFinal);
         panelDataFinal.add(spinnerDataFinal);
-
-        // Botão de busca
+        
         JButton buttonBuscar = new JButton("Buscar");
         Styles.setDefaultButtonSize(buttonBuscar);
-
-        // Adicionar todos os componentes ao painel de filtro
+        
         panelHomeFilter.add(panelDataInicial);
         panelHomeFilter.add(panelDataFinal);
         panelHomeFilter.add(buttonBuscar);
-
-        //Panel das labels
+        
         JPanel panelHomeLabels = new JPanel();
         panelHomeLabels.setLayout(new GridLayout(1, 4, 10, 10));
         JLabel labelSaldoTotal = new JLabel("Saldo Total:");
@@ -75,26 +68,21 @@ public class HomeManager extends JPanel {
         panelHomeLabels.add(labelSaldoTotal);
         panelHomeLabels.add(labelReceitas);
         panelHomeLabels.add(labelDespesas);
-
-        //Panel da table
+        
         JPanel panelHomeTables = new JPanel();
         panelHomeTables.setLayout(new GridLayout(1, 4, 10, 10));
-
-        // Definir colunas da tabela
+        
         String[] colunas = {"Data", "Descrição", "Categoria", "Valor"};
         Object[][] dados = { };
-
-        // Criar o modelo da tabela
+        
         DefaultTableModel modeloTabela = new DefaultTableModel(dados, colunas);
-
-        // Criar a tabela com o modelo
+        
         JTable table = new JTable(modeloTabela);
         JScrollPane scrollPane = new JScrollPane(table);
         panelHomeTables.add(scrollPane, BorderLayout.CENTER);
         Styles.setDefaultTableSize(table);
         Styles.setTableHeaderStyle(table);
-
-        // Panel principal que contém todos os painéis
+        
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.add(panelHomeButtons);

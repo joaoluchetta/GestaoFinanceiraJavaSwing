@@ -13,14 +13,12 @@ public class RegistroGlobal {
 
     public static void adicionar(Transacao transacao) {
         transacoes.add(transacao);
-        System.out.println("Transação adicionada: " + transacao); // Log para depuração
     }
 
     public static List<Transacao> getTransacoes() {
-        return new ArrayList<>(transacoes); // Retorna uma cópia da lista para evitar modificações externas
+        return new ArrayList<>(transacoes);
     }
-
-    // Método para compatibilidade com código existente
+    
     public static ArrayList<String> getRegistros() {
         ArrayList<String> registros = new ArrayList<>();
         for (Transacao t : transacoes) {
@@ -48,29 +46,22 @@ public class RegistroGlobal {
         }
         return total;
     }
-
-    public static double getSaldoTotal() {
-        return getTotalReceitas() - getTotalDespesas();
-    }
-
-    // Método para filtrar transações por período
+    
     public static List filtrarPorPeriodo(String dataInicial, String dataFinal) {
         List filtradas = new ArrayList<>();
 
         try {
-            // Converter strings para objetos Date
             Date dataIni = DATA_FORMAT.parse(dataInicial);
             Date dataFim = DATA_FORMAT.parse(dataFinal);
 
-            // Se a data final for igual à data inicial, adiciona 1 dia à data final
+            // Se a data final for igual à data inicial, adiciona 1 dia à data final para nao quebrar o codigo
             if (dataIni.equals(dataFim)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(dataFim);
-                calendar.add(Calendar.DAY_OF_MONTH, 1); // Adiciona 1 dia
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
                 dataFim = calendar.getTime();
             }
-
-            // Ajustar a data final para incluir todo o dia
+            
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dataFim);
             calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -78,13 +69,9 @@ public class RegistroGlobal {
             calendar.set(Calendar.SECOND, 59);
             dataFim = calendar.getTime();
 
-            System.out.println("Filtrando transações de " + DATA_FORMAT.format(dataIni) + " até " + DATA_FORMAT.format(dataFim));
-            System.out.println("Total de transações a verificar: " + transacoes.size());
-
             for (Transacao t : transacoes) {
                 Date dataTransacao = t.getData();
-
-                // Verificar se a data da transação está dentro do período
+                
                 if (!dataTransacao.before(dataIni) && !dataTransacao.after(dataFim)) {
                     filtradas.add(t);
                     System.out.println("Transação incluída no filtro: " + t + " (Data: " + DATA_FORMAT.format(t.getData()) + ")");

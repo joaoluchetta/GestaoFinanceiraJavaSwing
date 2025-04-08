@@ -11,8 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class CategoriaScreen extends JFrame implements ActionListener {
-
-    // Componentes da interface
     private JTextField nomeField;
     private JComboBox<String> tipoCombo;
     private JTextField descricaoField;
@@ -24,20 +22,16 @@ public class CategoriaScreen extends JFrame implements ActionListener {
     private JButton editarButton;
     private JButton removerButton;
     private JButton voltarButton;
-
-    // Estado para edição
     private String categoriaEmEdicao = null;
 
     public CategoriaScreen() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(true);
         setTitle("Gerenciador de Categorias");
-
-        // Criar painel de categoria usando o CategoriaManager
+        
         CategoriaManager.CategoriaPanelComponents categoriaComponents =
                 CategoriaManager.createCategoriaPanel();
-
-        // Armazenar referências aos componentes para uso posterior
+        
         nomeField = categoriaComponents.nomeField;
         tipoCombo = categoriaComponents.tipoCombo;
         descricaoField = categoriaComponents.descricaoField;
@@ -49,14 +43,12 @@ public class CategoriaScreen extends JFrame implements ActionListener {
         editarButton = categoriaComponents.editarButton;
         removerButton = categoriaComponents.removerButton;
         voltarButton = categoriaComponents.voltarButton;
-
-        // Registrar este objeto como listener dos botões
+        
         adicionarButton.addActionListener(this);
         editarButton.addActionListener(this);
         removerButton.addActionListener(this);
         voltarButton.addActionListener(this);
-
-        // Adicionar listener para clique duplo nas listas
+        
         listaReceitas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -74,11 +66,8 @@ public class CategoriaScreen extends JFrame implements ActionListener {
                 }
             }
         });
-
-        // Adicionar o painel ao frame
+        
         add(categoriaComponents.panel);
-
-        // Centralizar, ajustar tamanho e mostrar
         setSize(600, 500);
         Styles.centerOnScreen(this);
         setVisible(true);
@@ -102,41 +91,34 @@ public class CategoriaScreen extends JFrame implements ActionListener {
         String descricao = descricaoField.getText().trim();
         Categoria.TipoCategoria tipo = (tipoCombo.getSelectedIndex() == 0) ?
                 Categoria.TipoCategoria.RECEITA : Categoria.TipoCategoria.DESPESA;
-
-        // Validar campos
+        
         if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "O nome da categoria é obrigatório.",
                     "Campo obrigatório", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Verificar se estamos editando ou adicionando
+        
         if (categoriaEmEdicao != null) {
-            // Remover categoria antiga
             Categoria.removerPorNome(categoriaEmEdicao);
             atualizarListasCategorias();
             categoriaEmEdicao = null;
             adicionarButton.setText("Adicionar");
             editarButton.setEnabled(true);
         }
-
-        // Verificar se já existe
+        
         if (Categoria.existeCategoria(nome)) {
             JOptionPane.showMessageDialog(this,
                     "Já existe uma categoria com este nome.",
                     "Categoria duplicada", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Adicionar nova categoria
+        
         Categoria novaCategoria = new Categoria(nome, tipo, descricao);
         Categoria.adicionar(novaCategoria);
-
-        // Atualizar listas
+        
         atualizarListasCategorias();
-
-        // Limpar campos
+        
         limparCampos();
 
         JOptionPane.showMessageDialog(this,
@@ -145,7 +127,6 @@ public class CategoriaScreen extends JFrame implements ActionListener {
     }
 
     private void editarCategoria() {
-        // Verificar se há alguma seleção
         String nomeSelecionado = null;
         Categoria.TipoCategoria tipoSelecionado = null;
 
@@ -163,13 +144,11 @@ public class CategoriaScreen extends JFrame implements ActionListener {
                     "Seleção requerida", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Carregar dados para edição
+        
         carregarCategoriaSelecionada(nomeSelecionado, tipoSelecionado);
     }
 
     private void removerCategoriaSelecionada() {
-        // Verificar se há alguma seleção
         String nomeSelecionado = null;
 
         if (listaReceitas.getSelectedValue() != null) {
@@ -184,8 +163,7 @@ public class CategoriaScreen extends JFrame implements ActionListener {
                     "Seleção requerida", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Confirmar exclusão
+        
         int resposta = JOptionPane.showConfirmDialog(this,
                 "Tem certeza que deseja remover a categoria '" + nomeSelecionado + "'?",
                 "Confirmar exclusão",
@@ -193,9 +171,7 @@ public class CategoriaScreen extends JFrame implements ActionListener {
                 JOptionPane.QUESTION_MESSAGE);
 
         if (resposta == JOptionPane.YES_OPTION) {
-            // Remover categoria
             if (Categoria.removerPorNome(nomeSelecionado)) {
-                // Atualizar listas
                 atualizarListasCategorias();
 
                 JOptionPane.showMessageDialog(this,
@@ -212,12 +188,10 @@ public class CategoriaScreen extends JFrame implements ActionListener {
     private void carregarCategoriaSelecionada(String nome, Categoria.TipoCategoria tipo) {
         Categoria categoria = Categoria.buscarPorNome(nome);
         if (categoria != null) {
-            // Carregar campos
             nomeField.setText(categoria.getNome());
             descricaoField.setText(categoria.getDescricao());
             tipoCombo.setSelectedIndex(categoria.isReceita() ? 0 : 1);
-
-            // Mudar estado
+            
             categoriaEmEdicao = nome;
             adicionarButton.setText("Salvar");
             editarButton.setEnabled(false);
@@ -225,16 +199,13 @@ public class CategoriaScreen extends JFrame implements ActionListener {
     }
 
     private void atualizarListasCategorias() {
-        // Limpar modelos
         modelReceitas.clear();
         modelDespesas.clear();
-
-        // Adicionar categorias de receita
+        
         for (Categoria c : Categoria.listarReceitas()) {
             modelReceitas.addElement(c.getNome());
         }
-
-        // Adicionar categorias de despesa
+        
         for (Categoria c : Categoria.listarDespesas()) {
             modelDespesas.addElement(c.getNome());
         }
