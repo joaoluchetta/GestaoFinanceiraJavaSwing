@@ -1,23 +1,36 @@
 package org.example.src.views;
 
 import org.example.src.components.HomeManager;
+import org.example.src.models.RegistroGlobal;
 import org.example.src.components.Styles;
+import org.example.src.components.TransacoesScreen;
+import org.example.src.models.Transacao;
 import org.example.src.models.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static org.example.src.models.RegistroGlobal.filtrarPorPeriodo;
 
 public class HomeScreen extends JFrame implements ActionListener {
 
     // Botões
     private JButton sairButton;
     private JButton buscarButton;
+    private JButton buttonTransicoes;
+    private JButton buttonHistorico;
+    private JButton buttonCategoria;
 
-    // Campos de texto para datas
-    private JTextField dataInicialField;
-    private JTextField dataFinalField;
+    // Campos de data
+    private JSpinner dataInicialSpinner;
+    private SpinnerDateModel dataInicialModel;
+    private JSpinner dataFinalSpinner;
+    private SpinnerDateModel dataFinalModel;
 
     // Tabela de transações
     private JTable table;
@@ -29,6 +42,9 @@ public class HomeScreen extends JFrame implements ActionListener {
 
     // Usuário logado
     private Usuario usuarioLogado;
+
+    // Formato de data
+    private final SimpleDateFormat DATA_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     public HomeScreen(Usuario usuario) {
         // Verifica se o usuário não é nulo
@@ -47,8 +63,13 @@ public class HomeScreen extends JFrame implements ActionListener {
         // Armazenar referências aos componentes para uso posterior
         sairButton = homeComponents.sairButton;
         buscarButton = homeComponents.buscarButton;
-        dataInicialField = homeComponents.dataInicialField;
-        dataFinalField = homeComponents.dataFinalField;
+        buttonTransicoes = homeComponents.buttonTransicoes;
+        buttonHistorico = homeComponents.buttonHistorico;
+        buttonCategoria = homeComponents.buttonCategoria;
+        dataInicialSpinner = homeComponents.dataInicialSpinner;
+        dataInicialModel = homeComponents.dataInicialModel;
+        dataFinalSpinner = homeComponents.dataFinalSpinner;
+        dataFinalModel = homeComponents.dataFinalModel;
         table = homeComponents.table;
         labelSaldoTotal = homeComponents.labelSaldoTotal;
         labelReceitas = homeComponents.labelReceitas;
@@ -57,13 +78,20 @@ public class HomeScreen extends JFrame implements ActionListener {
         // Registra este objeto como listener dos botões
         sairButton.addActionListener(this);
         buscarButton.addActionListener(this);
+        buttonTransicoes.addActionListener(this);
+        buttonHistorico.addActionListener(this);
+        buttonCategoria.addActionListener(this);
 
         // Adicionar o painel ao frame
         add(homeComponents.panelHome);
 
+        // Carregar os dados iniciais
+        buscarTodosDados();
+
         // Centralizar, ajustar tamanho e mostrar
         pack();
         Styles.centerOnScreen(this);
+        setVisible(true);
     }
 
     // Implementação do método da interface ActionListener
@@ -73,6 +101,12 @@ public class HomeScreen extends JFrame implements ActionListener {
             handleSair();
         } else if (e.getSource() == buscarButton) {
             handleBusca();
+        } else if (e.getSource() == buttonTransicoes) {
+            handleTransicoes();
+        } else if (e.getSource() == buttonHistorico) {
+            handleHistorico();
+        } else if (e.getSource() == buttonCategoria) {
+            handleCategoria();
         }
     }
 
@@ -86,27 +120,56 @@ public class HomeScreen extends JFrame implements ActionListener {
         }
     }
 
+    private void handleTransicoes() {
+        TransacoesScreen transicoes = new TransacoesScreen(usuarioLogado);
+        transicoes.setVisible(true);
+    }
+
+    private void handleHistorico() {
+        HistoricoScreen historico = new HistoricoScreen();
+        historico.setVisible(true);
+    }
+
+    private void handleCategoria() {
+        CategoriaScreen categoriaScreen = new CategoriaScreen();
+        categoriaScreen.setVisible(true);
+    }
+
     // Método para tratar a busca por período
     private void handleBusca() {
-        String dataInicial = dataInicialField.getText().trim();
-        String dataFinal = dataFinalField.getText().trim();
-
         try {
-            if (dataInicial.isEmpty() && dataFinal.isEmpty()) {
-                buscarTodosDados();
-            }
+            // Obter as datas dos spinners
+            Date dataInicial = dataInicialModel.getDate();
+            Date dataFinal = dataFinalModel.getDate();
 
-            else if (dataInicial.isEmpty() || dataFinal.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Por favor, informe ambas as datas ou deixe os dois campos vazios para buscar todos os dados.",
-                        "Dados incompletos", JOptionPane.WARNING_MESSAGE);
+            // Verificar se ambas as datas estão selecionadas
+            if (dataInicial == null || dataFinal == null) {
+                // Se alguma estiver vazia, busca todos os dados
+                buscarTodosDados();
                 return;
             }
-            else {
-                filtrarPorPeriodo(dataInicial, dataFinal);
+
+            // Verifica se a data inicial é posterior à data final
+            if (dataInicial.after(dataFinal)) {
+                JOptionPane.showMessageDialog(this,
+                        "A data inicial não pode ser posterior à data final.",
+                        "Datas inválidas", JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
+            // Formatar as datas para string
+            String dataInicialStr = DATA_FORMAT.format(dataInicial);
+            String dataFinalStr = DATA_FORMAT.format(dataFinal);
+
+            System.out.println("Filtrando entre " + dataInicialStr + " e " + dataFinalStr);
+
+            //filtrarPorPeriodo(dataInicialStr, dataFinalStr);
+
+            atualizarTabelaComTransacoes(filtrarPorPeriodo(dataInicialStr, dataFinalStr));
+
         } catch (Exception ex) {
+            System.out.println("Erro no handleBusca: " + ex.getMessage());
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this,
                     "Erro ao aplicar o filtro: " + ex.getMessage(),
                     "Erro", JOptionPane.ERROR_MESSAGE);
@@ -115,60 +178,98 @@ public class HomeScreen extends JFrame implements ActionListener {
 
     // Método para buscar todos os dados
     private void buscarTodosDados() {
-        // Aqui você implementaria a lógica para buscar todos os dados
-        // Por exemplo, chamando um método de serviço:
-        // List<Transacao> todasTransacoes = transacaoService.buscarTodas();
+        try {
+            // Obter todas as transações
+            List<Transacao> todasTransacoes = RegistroGlobal.getTransacoes();
+            System.out.println("Buscando todas as transações: " + todasTransacoes.size() + " encontradas");
 
-        // Exemplo de atualização da tabela (simulado):
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // Limpa a tabela
+            // Atualizar a tabela com as transações
+            atualizarTabelaComTransacoes(todasTransacoes);
 
-        // Exemplo simples (simulado) - mostrando todos os dados
-        model.addRow(new Object[]{"01/04/2025", "Salário", "Receita", "R$ 3.500,00"});
-        model.addRow(new Object[]{"05/04/2025", "Aluguel", "Despesa", "R$ 1.200,00"});
-        model.addRow(new Object[]{"10/04/2025", "Supermercado", "Despesa", "R$ 450,00"});
-        model.addRow(new Object[]{"15/04/2025", "Freelance", "Receita", "R$ 800,00"});
-        model.addRow(new Object[]{"20/04/2025", "Internet", "Despesa", "R$ 120,00"});
-
-        // Atualizar os valores nas labels (simulado)
-        double receitas = 4300.0; // 3500 + 800
-        double despesas = 1770.0; // 1200 + 450 + 120
-        double saldo = receitas - despesas;
-
-        labelReceitas.setText("Receitas: R$ " + String.format("%.2f", receitas));
-        labelDespesas.setText("Despesas: R$ " + String.format("%.2f", despesas));
-        labelSaldoTotal.setText("Saldo Total: R$ " + String.format("%.2f", saldo));
-
-        JOptionPane.showMessageDialog(this,
-                "Exibindo todos os dados!",
-                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            System.out.println("Erro em buscarTodosDados: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao buscar dados: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    // Método para filtrar por período
-    private void filtrarPorPeriodo(String dataInicial, String dataFinal) {
-        // Aqui você implementaria a lógica para filtrar os dados
-        // Por exemplo, chamando um método de serviço:
-        // List<Transacao> transacoesFiltradas = transacaoService.filtrarPorPeriodo(dataInicial, dataFinal);
+    // Método centralizado para atualizar a tabela com transações
+    private void atualizarTabelaComTransacoes(List<Transacao> transacoes) {
+        try {
+            // Verificar se a tabela é nula
+            if (table == null) {
+                System.out.println("Erro: tabela é nula");
+                return;
+            }
 
-        // Exemplo de atualização da tabela (simulado):
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // Limpa a tabela
+            // Verificar se o modelo da tabela é nulo
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            if (model == null) {
+                System.out.println("Erro: modelo da tabela é nulo");
+                return;
+            }
 
-        // Exemplo simples (simulado) - dados filtrados
-        model.addRow(new Object[]{"10/04/2025", "Salário (Filtrado)", "Receita", "R$ 3.000,00"});
-        model.addRow(new Object[]{"15/04/2025", "Internet (Filtrado)", "Despesa", "R$ 120,00"});
+            // Limpar a tabela
+            model.setRowCount(0);
 
-        // Atualizar os valores nas labels (simulado)
-        double receitas = 3000.0;
-        double despesas = 120.0;
-        double saldo = receitas - despesas;
+            // Log para depuração
+            System.out.println("Atualizando tabela com " + transacoes.size() + " transações");
 
-        labelReceitas.setText("Receitas: R$ " + String.format("%.2f", receitas));
-        labelDespesas.setText("Despesas: R$ " + String.format("%.2f", despesas));
-        labelSaldoTotal.setText("Saldo Total: R$ " + String.format("%.2f", saldo));
+            // Adicionar transações à tabela
+            for (Transacao t : transacoes) {
+                String tipo = t.isReceita() ? "Receita" : "Despesa";
+                String dataFormatada = DATA_FORMAT.format(t.getData());
+                String valorFormatado = "R$ " + String.format("%.2f", t.getValor());
 
-        JOptionPane.showMessageDialog(this,
-                "Filtro aplicado com sucesso!",
-                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                model.addRow(new Object[]{
+                        dataFormatada,
+                        t.getDescricao(),
+                        tipo + ": " + t.getCategoria(),
+                        valorFormatado
+                });
+                System.out.println("Adicionada transação: " + dataFormatada + " - " + t.getDescricao());
+            }
+
+            // Se não houver transações, adicionar uma linha indicando que está vazio
+            if (transacoes.isEmpty()) {
+                model.addRow(new Object[]{
+                        "---", "Nenhuma transação registrada", "---", "R$ 0,00"
+                });
+                System.out.println("Tabela vazia - adicionada linha informativa");
+
+                // Zerar os valores nas labels
+                labelReceitas.setText("Receitas: R$ 0,00");
+                labelDespesas.setText("Despesas: R$ 0,00");
+                labelSaldoTotal.setText("Saldo Total: R$ 0,00");
+                return;
+            }
+
+            // Calcular totais
+            double receitas = 0;
+            double despesas = 0;
+
+            for (Transacao t : transacoes) {
+                if (t.isReceita()) {
+                    receitas += t.getValor();
+                } else {
+                    despesas += t.getValor();
+                }
+            }
+
+            double saldo = receitas - despesas;
+
+            // Atualizar os valores nas labels
+            labelReceitas.setText("Receitas: R$ " + String.format("%.2f", receitas));
+            labelDespesas.setText("Despesas: R$ " + String.format("%.2f", despesas));
+            labelSaldoTotal.setText("Saldo Total: R$ " + String.format("%.2f", saldo));
+
+            System.out.println("Totais atualizados: Receitas=" + receitas + ", Despesas=" + despesas + ", Saldo=" + saldo);
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar tabela: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
