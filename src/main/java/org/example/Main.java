@@ -6,3 +6,10 @@ public class Main {
         new LoginScreen();
     }
 }
+
+/*
+INTEGRANTES DO GRUPO
+João Pedro Luchetta -769231
+João Lucas Risse - 840228
+Jeferson Tomaz - 769349
+*/
