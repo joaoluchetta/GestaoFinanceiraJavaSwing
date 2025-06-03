@@ -1,10 +1,10 @@
-package org.example.src.views;
+package org.example.src.view;
 
 import org.example.src.components.DespesaManager;
 import org.example.src.components.TransacoesScreen;
-import org.example.src.models.RegistroGlobal;
+import org.example.src.model1.RegistroGlobal;
 import org.example.src.components.Styles;
-import org.example.src.models.Transacao;
+import org.example.src.model1.Transacao;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

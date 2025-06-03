@@ -2,7 +2,8 @@ package org.example.src.components;
 
 import javax.swing.*;
 import java.awt.*;
-import org.example.src.models.Categoria;
+import org.example.src.model.Categoria;
+import org.example.src.model.CategoriaDAOImpl;
 
 public class ReceitaManager extends JPanel {
 
@@ -10,9 +11,9 @@ public class ReceitaManager extends JPanel {
         JPanel panelReceita = new JPanel();
         panelReceita.setLayout(new GridLayout(6, 1, 5, 5));
         
-        String[] categoriaString = Categoria.getNomesCategorias(Categoria.TipoCategoria.RECEITA);
+        //String[] categoriaString = CategoriaDAOImpl.getNomesCategorias(Categoria.TipoCategoria.RECEITA);
         
-        JComboBox<String> categoria = new JComboBox<>(categoriaString);
+        JComboBox<String> categoria = new JComboBox<>();
         JTextField valor = new JTextField();
         JTextField descricao = new JTextField();
         

@@ -1,7 +1,7 @@
 package org.example.src.components;
-import org.example.src.views.DespesaScreen;
-import org.example.src.views.ReceitaScreen;
-import org.example.src.models.Usuario;
+import org.example.src.view.DespesaScreen;
+import org.example.src.view.ReceitaScreen;
+import org.example.src.model1.Usuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

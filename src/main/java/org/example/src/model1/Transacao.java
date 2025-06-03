@@ -1,4 +1,4 @@
-package org.example.src.models;
+package org.example.src.model1;
 
 import java.util.Date;
 

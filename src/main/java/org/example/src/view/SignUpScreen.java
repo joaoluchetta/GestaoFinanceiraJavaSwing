@@ -1,10 +1,10 @@
-package org.example.src.views;
+package org.example.src.view;
 import org.example.src.components.SignUpManager;
 import org.example.src.components.Styles;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.example.src.models.Usuario;
+import org.example.src.model1.Usuario;
 
 public class SignUpScreen extends JFrame implements ActionListener {
 

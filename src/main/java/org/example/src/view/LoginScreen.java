@@ -1,10 +1,10 @@
-package org.example.src.views;
+package org.example.src.view;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.example.src.components.LoginManager;
 import org.example.src.components.Styles;
-import org.example.src.models.Usuario;
+import org.example.src.model1.Usuario;
 
 public class LoginScreen extends JFrame implements ActionListener {
     

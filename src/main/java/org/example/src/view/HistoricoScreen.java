@@ -1,7 +1,7 @@
-package org.example.src.views;
+package org.example.src.view;
 
-import org.example.src.models.Transacao;
-import org.example.src.models.RegistroGlobal;
+import org.example.src.model1.Transacao;
+import org.example.src.model1.RegistroGlobal;
 import org.example.src.components.*;
 
 import javax.swing.*;

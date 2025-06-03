@@ -1,11 +1,11 @@
-package org.example.src.views;
+package org.example.src.view;
 
 import org.example.src.components.HomeManager;
-import org.example.src.models.RegistroGlobal;
+import org.example.src.model1.RegistroGlobal;
 import org.example.src.components.Styles;
 import org.example.src.components.TransacoesScreen;
-import org.example.src.models.Transacao;
-import org.example.src.models.Usuario;
+import org.example.src.model1.Transacao;
+import org.example.src.model1.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.example.src.models.RegistroGlobal.filtrarPorPeriodo;
+import static org.example.src.model1.RegistroGlobal.filtrarPorPeriodo;
 
 public class HomeScreen extends JFrame implements ActionListener {
     

@@ -1,6 +1,6 @@
 package org.example.src.components;
 
-import org.example.src.models.RegistroGlobal;
+import org.example.src.model1.RegistroGlobal;
 
 import javax.swing.*;
 import java.awt.*;
